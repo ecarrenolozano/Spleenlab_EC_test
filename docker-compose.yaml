@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ros2_humble_node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ros2_humble_container
+    command: ros2 run your_package_name cpu_load_node
+    volumes:
+      - ./cpu_load.log:/cpu_load.log
