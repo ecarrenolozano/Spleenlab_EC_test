@@ -3,38 +3,33 @@
 #include <vector>
 #include <cmath>
 
-// Function to perform CPU-intensive task
-void cpu_intensive_task()
-{
-	// This loop will consume CPU cycles
-		for(int i = 0; i < 1000000000; i++)
-		{
-			// Do some computation
-			double result = std::sqrt(i) * std::log(i+1);
-			
-			// Simulate some work by printing result
-			std::cout << "Result: " << result << std::endl;
-		}
+// Function to perform CPU-intensive computations
+void cpuIntensiveTask() {
+    while (true) {
+        // Perform some intensive computations
+        double result = 0.0;
+        for (int i = 0; i < 1000000; ++i) {
+            result += std::sin(i) * std::cos(i);
+        }
+    }
 }
 
-int main()
-{
-	//Get the number of available hardware threads
-	unsigned int num_threads = std::thread::hardware_concurrency();
-	
-	std::vector<std::thread> threads;
-	
-	// Create threads to perform CPU-intensive tasks
-	for(unsigned int i = 0; i < num_threads; i++)
-	{
-		threads.push_back(std::thread(cpu_intensive_task));
-	}
-	
-	// Join all threads
-	for(auto& thread : threads)
-	{
-		thread.join();
-	}
-	
-	return 0;
+int main() {
+    // Get the number of available CPU cores
+    unsigned int numCores = std::thread::hardware_concurrency();
+
+    // Create a vector to store threads
+    std::vector<std::thread> threads;
+
+    // Start a thread on each CPU core
+    for (unsigned int i = 0; i < numCores - 1; ++i) {
+        threads.push_back(std::thread(cpuIntensiveTask));
+    }
+
+    // Join all threads (this will never be reached since threads run indefinitely)
+    for (auto& thread : threads) {
+        thread.join();
+    }
+
+    return 0;
 }

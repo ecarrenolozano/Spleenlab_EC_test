@@ -13,8 +13,11 @@ FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y dialog apt-utils
+#-- Installing some utilities for prompting information and live code editing on the docker container
+RUN apt-get update\
+    && apt-get install -y dialog apt-utils nano
 
+#-----------------------------      ROS INSTALLATION        ---------------------
 # Set locale
 RUN apt-get update && apt-get install locales -y \
     && locale-gen en_US en_US.UTF-8 \
@@ -33,26 +36,31 @@ RUN apt-get update \
     && curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu \
     $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null \
-    && apt-get install -y nano \
     && echo "Step 3...SUCCESSFUL"
 
 # Install ROS 2 packages
 RUN apt-get update && apt-get upgrade -y \
     && apt-get install -y ros-humble-desktop \
     && apt-get install -y python3-rosdep \
-    && apt-get install -y python3-colcon-common-extensions
+    && apt-get install -y python3-colcon-common-extensions \
+    && echo "Step 4...SUCCESSFUL"
 
-# Environment setup
-#-- sourcing the setup script
+#---------------------------        WORKSPACE PREPARATION        -------------------------
+#-- Choosing /bin/bash as a default shell
 SHELL [ "/bin/bash" ]
-ENV ROS_SETUP_FILE /opt/ros/humble/setup.sh
 
-#Create ROS Workspace
+# Create ROS Workspace
 WORKDIR /home/ROS_WS/src
 
-COPY ./create_project.sh /home/
-COPY ./sources/* /home/
-COPY ./package.xml ./CMakeLists.txt /home/
+# Create folder for all file sources and non-ROS executables
+RUN ["mkdir", "/home/sources/", "/home/executables/"]
 
-RUN ["chmod", "+x",  "/home/create_project.sh"]
-RUN ["sh","/home/create_project.sh"]
+# Copy files from host machine to docker image
+COPY --chmod=777 ./executables/ /home/executables/
+COPY ./sources/ /home/sources/
+COPY ./CMakeLists.txt ./package.xml /home/
+      
+ENV PACKAGE_NAME="cpp_pubsub"
+RUN ["/home/executables/create_project.sh"]
+
+ENTRYPOINT ["/home/executables/entrypoint_script.sh" ]
