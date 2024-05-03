@@ -1,65 +1,35 @@
-/*#include <iostream>
+#include <iostream>
 #include <thread>
 #include <vector>
 #include <cmath>
 
-// Function to perform CPU-intensive task
-void cpu_intensive_task()
-{
-	// This loop will consume CPU cycles
-		for(int i = 0; i < 1000000000; i++)
-		{
-			// Do some computation
-			double result = std::sqrt(i) * std::log(i+1);
-			
-			// Simulate some work by printing result
-			std::cout << "Result: " << result << std::endl;
-		}
-}
-
-int main()
-{
-	//Get the number of available hardware threads
-	unsigned int num_threads = std::thread::hardware_concurrency();
-	
-	std::vector<std::thread> threads;
-	
-	// Create threads to perform CPU-intensive tasks
-	for(unsigned int i = 0; i < num_threads; i++)
-	{
-		threads.push_back(std::thread(cpu_intensive_task));
-	}
-	
-	// Join all threads
-	for(auto& thread : threads)
-	{
-		thread.join();
-	}
-	
-	return 0;
-}
-*/
-
-#include <iostream>
-
-// Recursive function to calculate factorial
-long long factorial(int n) {
-    if (n == 0 || n == 1) {
-        return 1;
-    } else {
-        return n * factorial(n - 1);
+// Function to perform CPU-intensive computations
+void cpuIntensiveTask() {
+    while (true) {
+        // Perform some intensive computations
+        double result = 0.0;
+        for (int i = 0; i < 1000000; ++i) {
+            result += std::sin(i) * std::cos(i);
+        }
     }
 }
 
 int main() {
-    // Define a large number for factorial calculation
-    int num = 20;
+    // Get the number of available CPU cores
+    unsigned int numCores = std::thread::hardware_concurrency();
 
-    // Calculate factorial
-    long long result = factorial(num);
+    // Create a vector to store threads
+    std::vector<std::thread> threads;
 
-    // Print the result
-    std::cout << "Factorial of " << num << " is: " << result << std::endl;
+    // Start a thread on each CPU core
+    for (unsigned int i = 0; i < numCores - 1; ++i) {
+        threads.push_back(std::thread(cpuIntensiveTask));
+    }
+
+    // Join all threads (this will never be reached since threads run indefinitely)
+    for (auto& thread : threads) {
+        thread.join();
+    }
 
     return 0;
 }
