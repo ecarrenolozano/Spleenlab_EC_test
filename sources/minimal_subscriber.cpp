@@ -10,6 +10,7 @@ Last update: 03.05.2024
 */
 
 #include <memory>
+#include <fstream>
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
@@ -61,7 +62,8 @@ class MinimalSubscriber : public rclcpp::Node
 	    std::string output_filename = "cpu_load.log";
 
       // Write stats to the output file
-		  write_to_file(path_output_file, output_filename, output_data);
+
+		  write_to_file(path_output_file, output_filename, msg.data.c_str());
 
       RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg.data.c_str());
     }

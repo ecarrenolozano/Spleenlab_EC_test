@@ -164,8 +164,9 @@ class MinimalPublisher : public rclcpp::Node
 
         //Publish the message in the topic            
         auto message = std_msgs::msg::String();
-        message.data = output_data + std::to_string(count_++);
-        
+        //message.data = output_data + std::to_string(count_++);
+        message.data = output_data;        
+
         RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
         publisher_->publish(message);
     }

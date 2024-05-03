@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <thread>
 #include <vector>
 #include <cmath>
@@ -37,4 +37,29 @@ int main()
 	}
 	
 	return 0;
+}
+*/
+
+#include <iostream>
+
+// Recursive function to calculate factorial
+long long factorial(int n) {
+    if (n == 0 || n == 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+
+int main() {
+    // Define a large number for factorial calculation
+    int num = 20;
+
+    // Calculate factorial
+    long long result = factorial(num);
+
+    // Print the result
+    std::cout << "Factorial of " << num << " is: " << result << std::endl;
+
+    return 0;
 }
