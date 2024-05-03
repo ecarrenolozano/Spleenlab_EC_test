@@ -35,32 +35,6 @@ struct cpu_times_intance
 	long busy_time{0};
 };
 
-//++++++++++++++++++++++++++++++			CUSTOM FUNCTIONS		+++++++++++++++++++++++++++
-/**
- * @brief Write a string into a file.
- *
- * This function ask for a path to the file, the filename and the data to writo into.
- *
- * @param path Path to the output file.
- * @param filename Name of the output file.
- * @param data String to be written into the output file in append mode.
- * @return void return.
- */
-void write_to_file(std::string path, std::string filename, std::string data)
-{
-	std::ofstream out_file(path + filename,
-						  std::ios::app);
-
-	if(!out_file)
-	{
-		std::cerr << "Cannot create the file: " << filename << std::endl;
-		exit(-1);
-	}
-	
-	out_file << data;
-	out_file.close();
-}
-
 /**
  * @brief Read the first line of file.
  *
@@ -173,12 +147,7 @@ class MinimalPublisher : public rclcpp::Node
   private:
     void timer_callback()
     {
-        // Paths for logging CPU load results
-	    //std::string path_output_file = "/home/egcarren/WorkspacesSoftware/Spleenlab/base/sources/";
-        std::string path_output_file = "/home/ROS_WS/";
-	    std::string output_filename = "cpu_load.log";
-        
-        // TO DO:
+        // Get current CPU load and store it
         current_cpu_load = get_cpu_load();
 		
 		// Calculate relative CPU load
@@ -190,16 +159,12 @@ class MinimalPublisher : public rclcpp::Node
 		// Print in console using cout
 		//std::cout << output_data;
 		
-		// Write stats to the output file
-		write_to_file(path_output_file, output_filename, output_data);
-		
 		// Update initial cpu load for subsequent interval
 		initial_cpu_load = current_cpu_load;
 
         //Publish the message in the topic            
         auto message = std_msgs::msg::String();
         message.data = output_data + std::to_string(count_++);
-
         
         RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
         publisher_->publish(message);
