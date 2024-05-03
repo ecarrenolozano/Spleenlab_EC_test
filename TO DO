@@ -26,3 +26,31 @@ RUN apt-get update && apt-get install -y \
     ros-humble-desktop \
     && rm -rf /var/lib/apt/lists/*
 
+## DOCKER COMMANDS
+### Build image
+- docker image build --progress=plain --no-cache -t testdocker .
+### Run container
+- docker run -ti --rm testdocker
+
+## ROS COMMANDS
+### Create a package
+- ros2 pkg create --build-type ament_cmake cpp_pubsub
+
+modify package.xml 
+    - Modify description, email and license fields.
+    - Add dependencies after <ament_cmake>
+      - <depend>rclcpp</depend>
+        <depend>std_msgs</depend>
+
+modify CMakeLists.txt
+    - Add after find_package(ament_cmake REQUIRED)
+      - find_package(rclcpp REQUIRED)
+      - find_package(std_msgs REQUIRED)
+      - add_executable(talker src/publisher_member_function.cpp)
+      - ament_target_dependencies(talker rclcpp std_msgs)
+      - install(TARGETS
+            talker
+            DESTINATION lib/${PROJECT_NAME})
+
+Build file <--->
+        
