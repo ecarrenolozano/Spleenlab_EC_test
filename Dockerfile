@@ -40,7 +40,7 @@ RUN apt-get update \
 
 # Install ROS 2 packages
 RUN apt-get update && apt-get upgrade -y \
-    && apt-get install -y ros-humble-desktop \
+    && apt-get install -y ros-humble-ros-base \
     && apt-get install -y python3-rosdep \
     && apt-get install -y python3-colcon-common-extensions \
     && echo "Step 4...SUCCESSFUL"
