@@ -15,6 +15,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 #-- Installing some utilities for prompting information and live code editing on the docker container
 RUN apt-get update\
+    && apt-get install -y build-essential \
     && apt-get install -y dialog apt-utils nano
 
 #-----------------------------      ROS INSTALLATION        ---------------------
