@@ -18,6 +18,8 @@ int main() {
     // Get the number of available CPU cores
     unsigned int numCores = std::thread::hardware_concurrency();
 
+    std::cout << "Running intensive task in " << (numCores-2) << "/" << numCores << " cores..." << std::endl;
+    
     // Create a vector to store threads
     std::vector<std::thread> threads;
 

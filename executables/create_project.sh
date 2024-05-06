@@ -10,6 +10,7 @@ ros2 pkg create --build-type ament_cmake --license Apache-2.0 $PACKAGE_NAME
 mv /home/sources/minimal_publisher.cpp /home/ROS_WS/src/$PACKAGE_NAME/src/
 mv /home/sources/minimal_subscriber.cpp /home/ROS_WS/src/$PACKAGE_NAME/src/
 
+#-- Replace default package.xml and CMakeLists.txt files by custom files
 mv /home/package.xml /home/CMakeLists.txt /home/ROS_WS/src/$PACKAGE_NAME
 
 cd /home/ROS_WS
