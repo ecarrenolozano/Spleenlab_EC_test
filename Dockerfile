@@ -54,7 +54,7 @@ SHELL [ "/bin/bash" ]
 WORKDIR /home/ROS_WS/src
 
 # Create folder for all file sources and non-ROS executables
-RUN ["mkdir", "/home/sources/", "/home/executables/"]
+#RUN ["mkdir", "/home/sources/", "/home/executables/"]
 
 # Copy files from host machine to docker image
 COPY --chmod=777 ./executables/ /home/executables/
@@ -64,4 +64,11 @@ COPY ./CMakeLists.txt ./package.xml /home/
 ENV PACKAGE_NAME="cpp_pubsub"
 RUN ["/home/executables/create_project.sh"]
 
-ENTRYPOINT ["/home/executables/entrypoint_script.sh" ]
+ENTRYPOINT ["/home/executables/entrypoint_script.sh"]
+
+## How to run it?
+# Build the image 
+# docker image build --progress=plain -t ros-humble:v1 .
+
+## Run the container passing the command to execute
+# for instance: docker run --name publisher ros-humble:v1 ros2 run cpp_pubsub talker
