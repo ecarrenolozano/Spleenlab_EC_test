@@ -65,10 +65,3 @@ ENV PACKAGE_NAME="cpp_pubsub"
 RUN ["/home/executables/create_project.sh"]
 
 ENTRYPOINT ["/home/executables/entrypoint_script.sh"]
-
-## How to run it?
-# Build the image 
-# docker image build --progress=plain -t ros-humble:v1 .
-
-## Run the container passing the command to execute
-# for instance: docker run --name publisher ros-humble:v1 ros2 run cpp_pubsub talker
