@@ -40,7 +40,7 @@
     ```shell
     $ docker compose up
     ```
-5. Open a **new** terminal, navigate to the repository folder, and run the following command to read the `cpu_load.log` file:
+5. Open a **new** terminal, navigate to the repository folder, and run the following commands to read the `cpu_load.log` file:
     ```shell
     $ chmod +x monitor_script.sh
     ```
