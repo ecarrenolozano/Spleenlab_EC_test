@@ -49,7 +49,7 @@
     ```
     **At this point you will see the CPU load at specific timestamps. The CPU load should be around 90%.**
 
-6. Open a **new** terminal, navigate to the repository folder, and stop the container the intensive task. At this point you will see how the CPU load now is below than 10%:
+6. Open a **new** terminal, navigate to the repository folder, and stop the container that runs the intensive task. At this point you will see how the CPU load now is below than 10%:
    
    ```shell
     $ docker compose stop intensive_app
