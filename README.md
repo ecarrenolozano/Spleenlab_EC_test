@@ -55,5 +55,7 @@
     $ docker compose stop intensive_app
     ```
 
+Note: If you are running docker compose in Windows, you will need to change the End of Line Sequence from LF to CRLF.
+
 ### That all!
   
