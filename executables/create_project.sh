@@ -22,6 +22,6 @@ rosdep install -i --from-path src --rosdistro humble -y
 
 colcon build --packages-select $PACKAGE_NAME
 
-# Compile code for the intensive task
+# Compile code for the intensive task. 
 g++ -pthread /home/sources/intensive_task.cpp -o /home/executables/intensive
 chmod +x /home/executables/intensive

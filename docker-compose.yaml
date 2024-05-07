@@ -1,10 +1,31 @@
-version: '3'
+#version: '3'
 services:
-  ros2_humble_node:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: ros2_humble_container
-    command: ros2 run your_package_name cpu_load_node
-    volumes:
-      - ./cpu_load.log:/cpu_load.log
+    ros2_pub:
+        build: .
+        image: roshumble_spleenlab:v1
+        pull_policy: never
+        command: ros2 run cpp_pubsub talker
+  
+    ros2_sub:
+        image: roshumble_spleenlab:v1
+        pull_policy: never
+        depends_on: 
+          - ros2_pub
+        command: ros2 run cpp_pubsub listener    
+        volumes: 
+          - logs_ros:/home/ROS_WS/log_cpu
+
+    intensive_app:
+        image: roshumble_spleenlab:v1
+        pull_policy: never
+        depends_on:
+          - ros2_pub
+        command: /home/executables/intensive
+
+volumes:
+    logs_ros:
+      driver: local # Define the driver and options under the volume name
+      driver_opts:
+        type: none
+        device: /home/$USERNAME/logs_ros_docker
+        o: bind

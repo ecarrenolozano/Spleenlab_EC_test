@@ -58,11 +58,10 @@ class MinimalSubscriber : public rclcpp::Node
     {
       // Paths for logging CPU load results
 	    //std::string path_output_file = "/home/egcarren/WorkspacesSoftware/Spleenlab/base/sources/";
-      std::string path_output_file = "/home/ROS_WS/";
+      std::string path_output_file = "/home/ROS_WS/log_cpu/";
 	    std::string output_filename = "cpu_load.log";
 
       // Write stats to the output file
-
 		  write_to_file(path_output_file, output_filename, msg.data.c_str());
 
       RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg.data.c_str());

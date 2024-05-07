@@ -180,6 +180,7 @@ class MinimalPublisher : public rclcpp::Node
 
 int main(int argc, char * argv[])
 {
+	std::cout << "Starting log CPU load messages in topic..." << std::endl;
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<MinimalPublisher>());
     rclcpp::shutdown();
